@@ -4,11 +4,11 @@ close all;
 h = 150;% w/m^2k convection coeff 
 k = 11; % w/mk conduction coeff
 N = 101; % nodes
-r = 0.02; % meters
-rhost = 7810*1000; % density of steel
+r = 0.2/2; % meters % Bad Conversion cm to meters % Used diameter (0.2m) instead of radius (0.1m)
+rhost = 7810; % density of steel % Bad Conversion (kg is SI unit. grams is not standard SI).
 rhoair = 1.204; % density of air
 V_room = 25; % meters cubed
-cpst = 0.51; % kj/kgk specific heat steel
+cpst = 0.51*1e3; % kj/kgk specific heat steel % Bad Conversion (J is SI unit, kJ is not standard SI)
 cpair = 1.006; % kj/kgk specific heat air
 Tamb = 24; % room temperature centigrade
 Tin = 350; % sphere temperature initial centigrade
@@ -73,8 +73,12 @@ end
 %% Plotting 0 to 60s
 hold on;
 grid on;
-plot(ri*1000,T(:,1:51:end))
-title(['T vs x step every', num2str(100*dt),' from 0s to ', num2str(tf),'s']);
+
+timechecks = [1,2,5,10,20,30,45,60]*(1/dt); % Replicates Kevin's Results Gifts for temperature profiles up to one minute. 
+timechecks(1) = 1;
+plot(ri*1000,T(:,timechecks)); % m to mm conversion is 1000
+%title(['T vs x step every', num2str(100*dt),' from 0s to ', num2str(tf),'s']);
+title('replicating Kevin Gifted results');
 xlabel('x - [mm]'); 
 ylabel('T - [^oC]');
 legend
